@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(
     cors({
-        origin: "*"
+        origin: "http://localhost:4200"
     })
 );
 
