@@ -1,0 +1,73 @@
+<!-- Breadcrumb Fabinfo-->
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <h3>FabTools</h3>
+  </li>
+</ol>
+
+<div class="mb-3">
+<button *ngIf="apiService.logged()" (click)="onAdd()" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Add Station</button>
+</div><br>
+
+<div *ngIf="apiService.logged() && addStation">
+  <span class="alert alert-danger" [hidden]="!stationName.errors?.required"> Name is required.</span>
+  <div class="input-group">
+    <input [(ngModel)]="newStationName" type="text" class="form-control" required #stationName="ngModel">
+    <div class="input-group-append">
+      <button class="btn btn-outline-success" type="button" (click)="!stationName.errors?.required && onSubmit()"><i class="fa fa-check"></i></button>
+      <button class="btn btn-outline-danger" type="button" (click)="onClose()"><i class="fa fa-times"></i></button>
+    </div>
+  </div>
+    <br>
+  </div>
+
+<!-- Fab Tools - Stations -->
+<div class="card-deck">
+  <div *ngFor="let station of stations; let i = index">
+    <br />
+
+    <!-- Admin is not logged in -> show no edit stuff-->
+    <div *ngIf="!apiService.logged()">
+      <app-station [station]="station"></app-station>
+    </div>
+
+    <!-- Admin is logged in -> show edit stuff-->
+    <div *ngIf="apiService.logged()" class="edit-frame">
+      <div class="float-right p-2">
+      <button *ngIf="showEditButton[i]" type="button" class="btn btn-warning" (click)="onEdit(station.name, i)"><i class="fa fa-pencil-alt" ></i></button>
+      <button *ngIf="edit && editIndex == i" type="button" class="btn btn-success ml-1" (click)="onChange(station.name, i)"><i class="fa fa-check-square" ></i></button>
+       <input *ngIf="edit && editIndex == i" type="text" [(ngModel)]="station.name"/>
+       &#160;
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal" (click)="selectedStationName = station.name; selectedStationID = station; selectedIndex = i"><i class="fa fa-trash "></i></button>
+    </div>
+      <app-station [station]="station"></app-station>
+    </div>
+
+ 
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to delete <strong>{{selectedStationName}}</strong> ? All stored data in this station will also be deleted! Check below and then confirm to delete this object together with all data in this station.</p>
+        <input type="checkbox" [(ngModel)]="toggleCheckbox"/><span> I agree</span>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="!toggleCheckbox" data-dismiss="modal" (click)="onRemove(selectedStationID, selectedIndex)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<ngx-spinner></ngx-spinner>

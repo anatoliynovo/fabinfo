@@ -1,0 +1,22 @@
+.edit-frame {
+    background-color: lightgray;
+    border-radius: 15px;
+    padding: 10px;
+    border: 10px solid white;
+}
+
+.input-group {
+    width: 70%;
+}
+
+.custom-file-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media only screen and (max-width:599px){
+	.card-deck {
+		width: 300px; font-size: 0.8em; 
+    }
+}

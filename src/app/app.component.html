@@ -1,0 +1,39 @@
+<!-- page wrapper -->
+<div id="wrapper" class="fill">
+
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- content wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- middle frame -->
+      <div id="content">
+
+       <app-navbar></app-navbar>
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+        <!-- Content -->
+        <router-outlet></router-outlet>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- /.middle frame -->
+
+      <app-footer></app-footer>
+
+    </div>
+    <!-- /.content wrapper -->
+
+  </div>
+  <!-- /.page wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a pageScroll class="scroll-to-top rounded" href="#wrapper">
+    <i class="fas fa-angle-up"></i>
+  </a>
+

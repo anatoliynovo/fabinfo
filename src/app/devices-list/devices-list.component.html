@@ -1,0 +1,115 @@
+<div class="mb-3">
+<button *ngIf="apiService.logged()" (click)="onAdd()" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Add Device</button>
+</div><br>
+
+<div *ngIf="apiService.logged() && addDevice">
+  <span class="alert alert-danger" [hidden]="!deviceName.errors?.required">Name is required.</span>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Name</span>
+    </div>
+    <input type="text" class="form-control" required #deviceName="ngModel" [(ngModel)]="newDeviceName" required>
+</div>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Image</span>
+    </div>
+    <div class="custom-file">
+        <input (change)="onFileSelected($event.target.files)" type="file" name="file" class="custom-file-input" accept="image/*" required>
+        <label class="custom-file-label">{{imageName}}</label>
+    </div>
+</div>
+      <button class="btn btn-outline-success" type="button" (click)="!deviceName.errors?.required && onSubmit()"><i class="fa fa-check"></i></button>
+      &#160;
+      <button class="btn btn-outline-danger" type="button" (click)="onClose()"><i class="fa fa-times"></i></button>
+
+    <hr>
+  </div>
+
+
+<div class="card-deck">
+  <div *ngFor="let device of devices; let i = index">
+
+     <!-- Admin is not logged in -> show no edit stuff-->
+     <div *ngIf="!apiService.logged()">
+    <app-device [device]="device"></app-device>
+     </div>
+
+     <!-- Admin is logged in -> show edit stuff-->
+    <div *ngIf="apiService.logged()" class="edit-frame">
+        <div class="float-right p-2">
+            <button *ngIf="showEditButton[i]" type="button" class="btn btn-warning" (click)="onEdit(device.name, i)"><i class="fa fa-pencil-alt" ></i></button>
+            <button *ngIf="edit && editIndex == i" type="button" class="btn btn-success ml-1" (click)="onChange(device.name, device.image, i)"><i class="fa fa-check-square" ></i></button>
+             &#160;
+             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-clone" (click)="selectedDevice = device"><i class="fa fa-clone"></i></button>
+             &#160;
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete" (click)="selectedDeviceName = device.name; selectedDeviceID = device; selectedIndex = i"><i class="fa fa-trash"></i></button>
+        </div>
+        <div *ngIf="edit && editIndex == i" class="input-group">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Name</span>
+          </div>
+        <input  type="text" [(ngModel)]="device.name" class="form-control"/>
+        </div>
+        <div *ngIf="edit && editIndex == i" class="input-group">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Image</span>
+          </div>
+        <div class="custom-file">
+          <input (change)="onFileSelected($event.target.files)" type="file" name="file" class="custom-file-input" accept="image/*" required>
+          <label class="custom-file-label">{{imageName}}</label>
+      </div>
+        </div>
+        <app-device [device]="device"></app-device>
+    </div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure to delete <strong>{{selectedDeviceName}}</strong> ?</p>
+    </div>
+    <div class="modal-footer">
+      
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onRemove(selectedDeviceID, selectedIndex)">Delete</button> 
+     </div>
+  </div>
+  </div>
+  </div>    
+    
+
+<!-- Modal Clone -->
+<div class="modal fade" id="modal-clone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Clone</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Type in a new name for the cloned device.</p>
+    <span>Name of the cloned device:  </span>
+    <input type="text" [(ngModel)]="changeClonedName"/>
+  </div>
+  <div class="modal-footer">
+    
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onClone(selectedDevice, changeClonedName)">Clone</button> 
+   </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<ngx-spinner></ngx-spinner>

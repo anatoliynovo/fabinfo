@@ -1,0 +1,93 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <h3>Materials</h3>
+    </li>
+  </ol>
+
+
+<!--Materials Content-->
+<div class="mb-3">
+    <button *ngIf="apiService.logged()" (click)="onAdd()" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Add Material</button>
+    </div>
+    <div *ngIf="apiService.logged() && addMaterial">
+        <div class="input-group input-width mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Name</span>
+            </div>
+            <input type="text" class="form-control" placeholder="add name" [(ngModel)]="materialName" required pattern="[a-zA-Z]*">
+          </div>
+          <div class="input-group input-width mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Image</span>
+          </div>
+          <div class="custom-file">
+            <input (change)="onFileSelected($event.target.files)" type="file" name="file" class="custom-file-input" accept="image/*" required>
+            <label class="custom-file-label">{{image}}</label>
+          </div>
+        </div>
+          <div class="input-group input-width mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Description</span>
+            </div>
+            <textarea class="form-control" aria-label="description" placeholder="place your text here" [(ngModel)]="materialText"></textarea>
+          </div>
+          <div class="input-group input-width">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Link</span>
+            </div>
+            <input type="text" class="form-control" placeholder="add link" [(ngModel)]="materialLink">
+          </div>
+          <br>
+          <button class="btn btn-outline-success" type="button" (click)="onSubmit()"><i class="fa fa-check"></i></button>
+          &#160;
+          <button class="btn btn-outline-danger" type="button" (click)="onClose()"><i class="fa fa-times"></i></button>
+        </div>
+        <hr>
+
+              <div class="container">
+                <p *ngIf="!apiService.logged()">Search the materials library to learn more about materials:</p>
+                  <ng-multiselect-dropdown
+                  [placeholder]="'Select a material'"
+                  [data]="dropdownList[0]"
+                  [(ngModel)]="selectedItems"
+                  [settings]="dropdownSettings"
+                  (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  (onDeSelect)="onItemDeSelect($event)"
+                  >
+                  </ng-multiselect-dropdown>
+              
+                <div class="card-deck">
+                  <div *ngFor="let obj of selectedItems; let i = index" class="card-custom">
+                      <div *ngIf="apiService.logged()" class="card-header text-center">
+                        <button *ngIf="editButton[i]" type="button" class="btn btn-warning" (click)="onEdit(obj, i)"><i class="fa fa-pencil-alt" ></i></button>
+                        <button *ngIf="editMaterial && editIndexMaterial == i" type="button" class="btn btn-success ml-1" (click)="onChange(obj, i)"><i class="fa fa-check-square" ></i></button>
+                        &#160;
+                        <button type="button" class="btn btn-danger" (click)="onRemove(obj, i)"><i class="fa fa-trash "></i></button>
+                      </div>
+                    <img *ngIf="showImage[i]"
+                      src="data:image/png;base64,{{obj.image}}"
+                      class="card-img-top"
+                    />
+                    <div *ngIf="showUploadedImage[i]" class="input-group-custom p-2">
+                        <div class="custom-file">
+                          <input (change)="onFileSelected($event.target.files)" type="file" name="file" class="custom-file-input">
+                          <label class="custom-file-label">{{image}}</label>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                    <button *ngIf="!edit[i] && editIndexMaterial == i" type="button" class="btn btn-danger btn-sm mt-1" (click)="onRemoveImage(i)">Delete image</button>
+                    </div>
+                  <div class="card-body">
+                    <h5><span *ngIf="edit[i]">{{ obj.name }}</span><input *ngIf="!edit[i] && editIndexMaterial == i" [(ngModel)]="obj.name" class="form-control"/></h5>
+                    <br /><br />
+                    <p *ngIf="edit[i]" class="card-text">{{ obj.text }}</p><textarea *ngIf="!edit[i] && editIndexMaterial == i" [(ngModel)]="obj.text" class="form-control" rows="10"></textarea>
+                  </div>
+                  <div class="card-footer-custom">
+                    <small *ngIf="edit[i]"><a class="link" href="{{obj.link}}" target="blank">{{obj.link}}</a></small><textarea *ngIf="!edit[i] && editIndexMaterial == i" [(ngModel)]="obj.link" class="form-control" rows="9"></textarea>
+                  </div>
+                </div>
+              </div>
+          </div>
+            
+         

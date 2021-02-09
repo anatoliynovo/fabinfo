@@ -1,0 +1,12 @@
+.edit-frame {
+    background-color: lightgray;
+    border-radius: 15px;
+    padding: 10px;
+    border: 10px solid white;
+}
+
+@media only screen and (max-width:599px){
+	.card-deck {
+		width: 300px; font-size: 0.8em; 
+    }
+}

@@ -1,0 +1,109 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <h3>Safety Information</h3>
+    </li>
+</ol>
+
+<!--Materials Content-->
+<div class="mb-3">
+    <button *ngIf="apiService.logged()" (click)="onAdd()" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Add Information</button>
+</div>
+<div *ngIf="apiService.logged() && addInfo">
+    <div class="input-group input-width mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Station Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="add name" [(ngModel)]="itemName">
+    </div>
+    <div class="input-group input-width mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">PDF File</span>
+        </div>
+        <div class="custom-file">
+            <input (change)="onFileSelected($event.target.files)" type="file" name="file" class="custom-file-input">
+            <label class="custom-file-label">{{filePlaceholder}}</label>
+        </div>
+    </div>
+    <br>
+    <button class="btn btn-outline-success" type="button" (click)="onSubmit()"><i class="fa fa-check"></i></button> &#160;
+    <button class="btn btn-outline-danger" type="button" (click)="onClose()"><i class="fa fa-times"></i></button>
+</div>
+<hr>
+
+<div class="container">
+    <p *ngIf="!apiService.logged()">You can find all safety instructions here:</p>
+    <ng-multiselect-dropdown [placeholder]="'Select'" [data]="dropdownList[0]" [(ngModel)]="selectedItems" [settings]="dropdownSettingsItems" (onSelect)="onItemSelect($event)">
+    </ng-multiselect-dropdown>
+    <br>
+    <div *ngFor="let item of selectedItems; let i of index">
+        <div *ngIf="apiService.logged()" class="mb-2">
+            <button type="button" class="btn btn-danger" (click)="onRemove(item, i)"><i class="fa fa-trash "></i></button> &#160;
+            <button *ngIf="!editButton[i]" type="button" class="btn btn-warning" (click)="onEdit(item, i)"><i class="fa fa-pencil-alt" ></i></button>
+            <button *ngIf="editItem && editIndexItem == i" type="button" class="btn btn-success ml-1" (click)="onChange(item, i)"><i class="fa fa-check-square" ></i></button>
+            <input *ngIf="editItem && editIndexItem == i" type="text" [(ngModel)]="item.name" />&nbsp;
+            <input *ngIf="editItem && editIndexItem == i" (change)="onFileSelected($event.target.files)" type="file" name="file">
+        </div>
+        <iframe [src]="urlItems + item.file | safe" frameborder="0" width="900 " height="1000"></iframe>
+    </div>
+</div>
+
+<hr *ngIf="apiService.logged()">
+
+<div class="mb-3">
+    <button *ngIf="apiService.logged()" (click)="onAddSign()" type="button" class="btn btn-success"><i class="fa fa-plus"></i> Add Sign</button>
+</div>
+<div *ngIf="apiService.logged() && addSign">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Sign name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="add name" [(ngModel)]="signName">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Image</span>
+        </div>
+        <div class="custom-file">
+            <input (change)="onFileSelected($event.target.files)" type="file" name="file" class="custom-file-input">
+            <label class="custom-file-label">{{filePlaceholder}}</label>
+        </div>
+    </div>
+    <br>
+    <button class="btn btn-outline-success" type="button" (click)="onSubmitSign()"><i class="fa fa-check"></i></button> &#160;
+    <button class="btn btn-outline-danger" type="button" (click)="onCloseSign()"><i class="fa fa-times"></i></button>
+    <hr>
+</div>
+
+<div *ngIf="apiService.logged()" class="container">
+    <ng-multiselect-dropdown [placeholder]="'Select sign'" [data]="dropdownList2[0]" [(ngModel)]="selectedSigns" [settings]="dropdownSettingsSigns" (onSelect)="onItemSelectSign($event)">
+    </ng-multiselect-dropdown>
+    <br>
+    <div class="card-deck">
+        <div *ngFor="let sign of selectedSigns; let i of index" class="card-custom">
+            <div *ngIf="apiService.logged()" class="card-header mb-2">
+                <button type="button" class="btn btn-danger" (click)="onRemoveSign(sign, i)"><i class="fa fa-trash "></i></button> &#160;
+                <button *ngIf="!editButtonSign[i]" type="button" class="btn btn-warning" (click)="onEditSign(sign, i)"><i class="fa fa-pencil-alt" ></i></button>
+                <button *ngIf="editSign && editIndexSign == i" type="button" class="btn btn-success ml-1" (click)="onChangeSign(sign, i)"><i class="fa fa-check-square" ></i></button>
+
+
+                <div class="input-group mt-3 w-100">
+                    <div class="col-xs-4">
+                        <input *ngIf="editSign && editIndexSign == i" type="text" class="form-control" [(ngModel)]="sign.name" />&nbsp;
+                    </div>
+                </div>
+
+
+
+                <div *ngIf="editSign && editIndexSign == i" class="custom-file">
+                    <input (change)="onFileSelected($event.target.files)" type="file" class="custom-file-input" id="validatedCustomFile" required>
+                    <label class="custom-file-label" for="validatedCustomFile">{{filePlaceholder2}}</label>
+                </div>
+
+
+
+            </div>
+            <img [src]="urlSigns + sign.image | safe" class="sign" />
+            <p class="text-center">{{sign.name}}</p>
+        </div>
+    </div>
+</div>

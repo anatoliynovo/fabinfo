@@ -1,0 +1,37 @@
+.input-width {
+    width: 80%;
+}
+
+.matImg {
+    width: 5em;
+    height: 5em;
+  }
+  
+.matText {
+    font-size: 1em;
+  }
+
+.card-custom {
+    width: 0;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e3e6f0;
+    border-radius: 0.35rem;
+    min-width: 15em;
+    margin: 1em;
+  }
+
+  .card-footer-custom {
+    padding: 0.75rem 1.25rem;
+    background-color: white;
+    border-top: 3px solid #e3e6f0;
+  }
+
+  .input-group-custom {
+    width: 100%;
+  }
+
+  .link {
+    word-wrap: break-word;
+  }
+

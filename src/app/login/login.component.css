@@ -1,0 +1,10 @@
+.alert{
+    color: darkred;
+    background-color: #ffc0c0;
+    text-align: center;
+}
+
+.card-custom {
+    width: 100%;
+    height: 80%;
+}
