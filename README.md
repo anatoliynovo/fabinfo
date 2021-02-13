@@ -1,3 +1,6 @@
+#Demo
+https://fabinfo.netlify.app/
+
 # Was ist Fabinfo? 
 Für die zahlreichen Maschinen und Geräte im FabLab bedarf es i.d.R. einer intensiven Ein- bzw. Unterweisung. Erst danach ist man berechtigt, das jeweilige Gerät auch selbstständig nutzen zu dürfen, ohne sich selbst Gefahren auszusetzen. Der korrekte Umgang mit den Geräten verhindert außerdem die Fehlbedienung (bis hin zum Schaden an den Geräten).
 Im Betrieb mit den Geräten tauchen immer wieder Fragen auf, z.B. nach den Einstellungen, den zu verwendenden Materialien, usw. Dies insbesondere, wenn Nutzer die Maschinen nur gelegentlich nutzen. Das Risiko für die Nutzer und die Geräte soll minimiert/verhindert werden.
